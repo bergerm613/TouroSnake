@@ -42,8 +42,16 @@ public class AStarStrategy implements SnakeStrategy {
                     continue;
                 }
 
-                double newCostToNeighbor = currentNode.fromStart + currentNode.distance(neighbor);
-                if (newCostToNeighbor < neighbor.fromStart || !openNodes.contains(neighbor)) {
+                if (openNodes.contains(neighbor)) {
+                    int neighborIndex = openNodes.indexOf(neighbor);
+                    Node oldNeighbor = openNodes.get(neighborIndex);
+
+                    if (neighbor.getCost() < oldNeighbor.getCost()) {
+                        openNodes.set(neighborIndex, neighbor);
+                    }
+                }
+
+                else {
                     openNodes.add(neighbor);
                 }
             }
@@ -55,20 +63,7 @@ public class AStarStrategy implements SnakeStrategy {
             currentNode = currentNode.getParent();
         }
 
-        Direction direction = null;
-        if (startNode.getX() + 1 == currentNode.getX()) {
-            direction = Direction.East;
-        }
-        else if (startNode.getX() - 1 == currentNode.getX()) {
-            direction = Direction.West;
-        }
-        else if (startNode.getY() - 1 == currentNode.getY()) {
-            direction = Direction.North;
-        }
-        else if (startNode.getY() + 1 == currentNode.getY())  {
-            direction = Direction.South;
-        }
-        return direction;
+        return startNode.directionTo(currentNode);
     }
 
 
