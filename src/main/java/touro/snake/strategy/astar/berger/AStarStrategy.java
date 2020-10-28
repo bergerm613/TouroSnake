@@ -36,7 +36,7 @@ public class AStarStrategy implements SnakeStrategy {
 
             for (Direction d : directions) {
                 Node neighbor = new Node(currentNode.moveTo(d), currentNode, endNode);
-                if (!snake.contains(neighbor) && neighbor.inBounds() && !closedNodes.contains(neighbor)) {
+                if (!closedNodes.contains(neighbor) && !snake.contains(neighbor) && neighbor.inBounds()) {
                     addNeighborToOpen(openNodes, neighbor);
                 }
             }
