@@ -23,12 +23,12 @@ public class AStarStrategy implements SnakeStrategy {
         HashSet<Node> closedNodes = new HashSet<>();
         openNodes.add(startNode);
 
-        while (true) {
+        while (!openNodes.isEmpty()) {
             Node currentNode = getLowestNode(openNodes);
             openNodes.remove(currentNode);
             closedNodes.add(currentNode);
 
-            if (currentNode.getX() == endNode.getX() && currentNode.getY() == endNode.getY()) {
+            if (currentNode.equals(endNode)) {
                 Direction bestDirection = getFirstTurn(startNode, currentNode);
                 snake.turnTo(bestDirection);
                 break;
@@ -36,21 +36,18 @@ public class AStarStrategy implements SnakeStrategy {
 
             for (Direction d : directions) {
                 Node neighbor = new Node(currentNode.moveTo(d), currentNode, endNode);
-                if (snake.contains(neighbor) ||
-                    !neighbor.inBounds() ||
-                    closedNodes.contains(neighbor)) {
+                if (snake.contains(neighbor) || !neighbor.inBounds() || closedNodes.contains(neighbor)) {
                     continue;
                 }
 
-                if (openNodes.contains(neighbor)) {
-                    int neighborIndex = openNodes.indexOf(neighbor);
+                int neighborIndex = openNodes.indexOf(neighbor);
+                if (neighborIndex != -1) {
                     Node oldNeighbor = openNodes.get(neighborIndex);
 
                     if (neighbor.getCost() < oldNeighbor.getCost()) {
                         openNodes.set(neighborIndex, neighbor);
                     }
                 }
-
                 else {
                     openNodes.add(neighbor);
                 }
@@ -59,7 +56,7 @@ public class AStarStrategy implements SnakeStrategy {
     }
 
     private Direction getFirstTurn(Node startNode, Node currentNode) {
-        while (currentNode.getParent() != startNode) {
+        while (!currentNode.getParent().equals(startNode)) {
             currentNode = currentNode.getParent();
         }
 
