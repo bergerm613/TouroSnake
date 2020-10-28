@@ -36,22 +36,24 @@ public class AStarStrategy implements SnakeStrategy {
 
             for (Direction d : directions) {
                 Node neighbor = new Node(currentNode.moveTo(d), currentNode, endNode);
-                if (snake.contains(neighbor) || !neighbor.inBounds() || closedNodes.contains(neighbor)) {
-                    continue;
-                }
-
-                int neighborIndex = openNodes.indexOf(neighbor);
-                if (neighborIndex != -1) {
-                    Node oldNeighbor = openNodes.get(neighborIndex);
-
-                    if (neighbor.getCost() < oldNeighbor.getCost()) {
-                        openNodes.set(neighborIndex, neighbor);
-                    }
-                }
-                else {
-                    openNodes.add(neighbor);
+                if (!snake.contains(neighbor) && neighbor.inBounds() && !closedNodes.contains(neighbor)) {
+                    addNeighborToOpen(openNodes, neighbor);
                 }
             }
+        }
+    }
+
+    private void addNeighborToOpen(ArrayList<Node> openNodes, Node neighbor) {
+        int neighborIndex = openNodes.indexOf(neighbor);
+        if (neighborIndex != -1) {
+            Node oldNeighbor = openNodes.get(neighborIndex);
+
+            if (neighbor.getCost() < oldNeighbor.getCost()) {
+                openNodes.set(neighborIndex, neighbor);
+            }
+        }
+        else {
+            openNodes.add(neighbor);
         }
     }
 
