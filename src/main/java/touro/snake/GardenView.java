@@ -7,12 +7,10 @@ import java.util.List;
 public class GardenView extends JComponent {
 
     private final Garden garden;
-    private final Snake snake;
     public static final int CELL_SIZE = 10;
 
-    public GardenView(Garden garden, Snake snake) {
+    public GardenView(Garden garden) {
         this.garden = garden;
-        this.snake = snake;
     }
 
     @Override
@@ -47,12 +45,12 @@ public class GardenView extends JComponent {
 
     void paintConsideredSquares(Graphics g) {
         g.setColor(new Color(199, 215, 185));
-        paintListOfSquares(snake.getStrategy().getSearchSpace(), g);
+        paintListOfSquares(garden.getSnake().getStrategy().getSearchSpace(), g);
     }
 
     void paintProjectedPath(Graphics g) {
         g.setColor(new Color(4, 139,168));
-        paintListOfSquares(snake.getStrategy().getPath(), g);
+        paintListOfSquares(garden.getSnake().getStrategy().getPath(), g);
     }
 
     private void paintListOfSquares(List<Square> squareList, Graphics g) {
