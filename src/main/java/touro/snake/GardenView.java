@@ -2,46 +2,68 @@ package touro.snake;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
 public class GardenView extends JComponent {
 
     private final Garden garden;
+    private final Snake snake;
     public static final int CELL_SIZE = 10;
 
-    public GardenView(Garden garden) {
+    public GardenView(Garden garden, Snake snake) {
         this.garden = garden;
+        this.snake = snake;
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         paintGrass(g);
+        paintConsideredSquares(g);
+        paintProjectedPath(g);
         paintFood(g);
         paintSnake(g);
     }
 
     void paintGrass(Graphics g) {
         // Berger
-        g.setColor(Color.GREEN);
+        g.setColor(new Color(153, 194,77));
         g.fillRect(0, 0, getWidth(), getHeight());
     }
 
     void paintSnake(Graphics g) {
-        g.setColor(Color.RED);
-        for (Square s : garden.getSnake().getSquares()) {
-            g.fillRect(s.getX()*CELL_SIZE, s.getY()*CELL_SIZE, CELL_SIZE, CELL_SIZE);
-        }
+        g.setColor(new Color(46, 64,87));
+        paintListOfSquares(garden.getSnake().getSquares(), g);
     }
 
     void paintFood(Graphics g) {
         // Berger
         if (garden.getFood() != null) {
             Food food = garden.getFood();
-            g.setColor(Color.LIGHT_GRAY);
-
-            int x = food.getX() * CELL_SIZE;
-            int y = food.getY() * CELL_SIZE;
-            g.fillRect(x, y, CELL_SIZE, CELL_SIZE);
+            g.setColor(new Color(241, 143,1));
+            paintSquare(food, g);
         }
+    }
+
+    void paintConsideredSquares(Graphics g) {
+        g.setColor(new Color(199, 215, 185));
+        paintListOfSquares(snake.getStrategy().getSearchSpace(), g);
+    }
+
+    void paintProjectedPath(Graphics g) {
+        g.setColor(new Color(4, 139,168));
+        paintListOfSquares(snake.getStrategy().getPath(), g);
+    }
+
+    private void paintListOfSquares(List<Square> squareList, Graphics g) {
+        for (Square square : squareList) {
+            paintSquare(square, g);
+        }
+    }
+
+    private void paintSquare(Square square, Graphics g) {
+        int x = square.getX() * CELL_SIZE;
+        int y = square.getY() * CELL_SIZE;
+        g.fillRect(x, y, CELL_SIZE, CELL_SIZE);
     }
 }
