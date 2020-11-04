@@ -9,6 +9,12 @@ public class GardenView extends JComponent {
     private final Garden garden;
     public static final int CELL_SIZE = 10;
 
+    public static final Color darkBlueColor = new Color(46, 64, 87);
+    public static final Color orangeColor = new Color(241, 143, 1);
+    public static final Color lightGreenColor = new Color(199, 215, 185);
+    public static final Color lightBlueColor = new Color(4, 139, 168);
+    public static final Color darkGreenColor = new Color(153, 194, 77);
+
     public GardenView(Garden garden) {
         this.garden = garden;
     }
@@ -25,12 +31,12 @@ public class GardenView extends JComponent {
 
     void paintGrass(Graphics g) {
         // Berger
-        g.setColor(new Color(153, 194,77));
+        g.setColor(darkGreenColor);
         g.fillRect(0, 0, getWidth(), getHeight());
     }
 
     void paintSnake(Graphics g) {
-        g.setColor(new Color(46, 64,87));
+        g.setColor(darkBlueColor);
         paintListOfSquares(garden.getSnake().getSquares(), g);
     }
 
@@ -38,18 +44,18 @@ public class GardenView extends JComponent {
         // Berger
         if (garden.getFood() != null) {
             Food food = garden.getFood();
-            g.setColor(new Color(241, 143,1));
+            g.setColor(orangeColor);
             paintSquare(food, g);
         }
     }
 
     void paintConsideredSquares(Graphics g) {
-        g.setColor(new Color(199, 215, 185));
+        g.setColor(lightGreenColor);
         paintListOfSquares(garden.getSnake().getStrategy().getSearchSpace(), g);
     }
 
     void paintProjectedPath(Graphics g) {
-        g.setColor(new Color(4, 139,168));
+        g.setColor(lightBlueColor);
         paintListOfSquares(garden.getSnake().getStrategy().getPath(), g);
     }
 
