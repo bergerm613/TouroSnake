@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.List;
 
 public class AStarStrategy implements SnakeStrategy {
-    Direction[] directions = Direction.values();
+    private Direction[] directions = Direction.values();
 
     private List<Square> pathList = new ArrayList<>();
     private List<Square> consideredSquaresList = new ArrayList<>();
